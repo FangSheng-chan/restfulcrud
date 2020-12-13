@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ss.restfulcrud.mapper.EmployeeMapper">
+
+    <resultMap id="employeeDepartmentMap" type="com.ss.restfulcrud.entities.Employee">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="password" column="password"></result>
+        <result property="email" column="email"></result>
+        <result property="gender" column="gender"></result>
+        <result property="birth" column="birth"></result>
+        <result property="phone" column="phone"></result>
+        <result property="performance" column="performance"></result>
+        <result property="DId" column="departmentId"></result>
+        <collection property="department" ofType="com.ss.restfulcrud.entities.Department">
+            <id property="departmentId" column="departmentId"></id>
+            <result property="departmentName" column="departmentName"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findAllEmp" resultMap="employeeDepartmentMap">
+        select e.id,e.`name`,e.`password`,e.email,e.gender,e.birth,e.phone,e.performance,d.departmentName from employee e left join department d on e.departmentId = d.departmentId
+    </select>
+
+    <insert id="addEmp">
+        insert into employee (name,password,email,gender,birth,phone,performance,departmentId) values (#{name},#{password},#{email},#{gender},#{birth},#{phone},#{performance},#{DId})
+    </insert>
+
+    <update id="update">
+        update employee set name=#{name},password=#{password},email=#{email},gender=#{gender},birth=#{birth},phone=#{phone},performance=#{performance},departmentId=#{DId} where id=#{id}
+    </update>
+
+    <delete id="delEmp">
+        delete from employee where id=#{id}
+    </delete>
+
+    <select id="findPerformance" resultType="com.ss.restfulcrud.entities.Employee">
+        select name,performance from employee
+    </select>
+
+    <select id="getEmpId" resultMap="employeeDepartmentMap">
+        select * from employee where id=#{id}
+    </select>
+
+    <select id="findEmpName" resultType="com.ss.restfulcrud.entities.Employee">
+        select * from employee where name=#{name};
+    </select>
+
+
+</mapper>

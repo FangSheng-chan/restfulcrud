@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/asserts/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="/asserts/css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/asserts/css/dashboard.css" rel="stylesheet">
+    <script type="text/javascript" src="/asserts/js/bootstrap.js"></script>
+</head>
+
+<body>
+<!-- 引入抽取的topbar -->
+<!--模板名：会使用thymeleaf的前后缀配置规则进行解析 -->
+<div th:replace="commons/bar::topbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--引入侧边栏 -->
+        <div th:replace="commons/bar::sidebar(activeUri='users')"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <h2>
+                <a class="btn btn-sm btn-success" th:href="@{/user}">用户添加</a>
+            </h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>联系电话</th>
+                        <th>生日</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--用户显示-->
+                    <tr th:each="user:${userList}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.password}"></td>
+                        <td th:text="${user.phone}"></td>
+                        <td th:text="${#dates.format(user.birth,'yyyy-MM-dd')}"></td>
+                        <td>
+                            <!--拼串 路径会带上员工id-->
+                            <a class="btn btn-sm btn-primary" th:href="@{/user/}+${user.id}">编辑</a>
+                            <a  th:href="@{/delUser/}+${user.id}"  class="btn btn-sm btn-danger deleteBtn">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+<nav class="modal-footer no-margin-top">
+    <!--    <div class="col-md-6">-->
+    <!--        <strong>当前第 [[${pageInfo?.pageNum}]]页,共 [[${pageInfo?.pages}]] 页.一共 [[${pageInfo?.total}]] 条记录</strong>-->
+    <!--    </div>-->
+    <ul class="pagination justify-content-center ">
+        <li class="page-item" th:if="${pageInfo?.hasPreviousPage}">
+            <a class="page-link" th:href="'/users?pageNum=1'">首页</a>
+        </li>
+        <li class="page-item" th:if="${pageInfo?.hasPreviousPage}">
+            <a  class="page-link" th:href="'/users?pageNum='+${pageInfo.prePage}">上一页</a>
+        </li>
+        <!--遍历条数-->
+        <li class="page-item" th:each="nav:${pageInfo?.navigatepageNums}">
+            <a  class="page-link" th:href="'/users?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+            <span class="page-link" style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}"
+                  th:text="${nav}"></span>
+        </li>
+        <li class="page-item" th:if="${pageInfo?.hasNextPage}">
+            <a class="page-link"  th:href="'/users?pageNum='+${pageInfo.nextPage}">下一页</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" th:href="'/users?pageNum='+${pageInfo?.pages}">尾页</a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

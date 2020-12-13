@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.css}" rel="stylesheet">
+    <link rel="stylesheet" href="asserts/base/css/index.css">
+    <link rel="shortcut icon" href="asserts/imgs/lk_favicon.ico" type="image/x-icon">
+    <script src="asserts/js/jquery-3.3.1.js"></script>
+    <script src="asserts/js/bootstrap.js"></script>
+    <script src="asserts/base/js/index.js"></script>
+    <title>College</title>
+</head>
+<body style="height: 3000px">
+<!--bootstrap没有去掉 a标签的下划线 和 ul ol 标签前面的点 -->
+
+<!---------------------------------头部-begin--------------------------------------------------------------------->
+
+<header id="lk_header">
+    <!--上部分-->
+    <div class="top-bar d-none d-sm-none d-md-none d-lg-block text-center text-muted">
+        <div class="container">
+            <div class="row">
+                <div class="top-bar-1 col-md-2">
+                    <a href="" class="text-muted">
+                        <i class="icon-phone"></i>
+                        <span>关注微信号</span>
+                        <img src="asserts/imgs/fs.jpg" alt="" width="120px">
+                    </a>
+                </div>
+                <div class="top-bar-2 col-md-3">
+                    <i class="icon-tel"></i>
+                    <span>17857337593</span>
+                </div>
+                <div class="top-bar-3 col-md-2">
+                    <a href="" class="text-muted">校企合作</a>
+                    <a href="" class="text-muted">培训师</a>
+                </div>
+                <div class="top-bar-4 col-md-4" th:style="'display:' + @{(${session.user?.username} ? 'none' : ' ')} + ''" >
+                    <a  th:href="@{/register}" class="btn btn-lk btn-sm">免费注册</a>
+                    <span>&nbsp;&nbsp;</span>
+                    <a th:href="@{/toLogin}" class="ml1">立即登陆</a>
+                </div>
+                <div  class="top-bar-4 col-md-2">
+                    <span th:text="${session.user?.username}">admin</span>
+                </div>
+
+                <input type="hidden" id="userId" th:value="${userId}">
+
+                <div  th:style="'display:' + @{(${session.user?.username} ? '' : 'none ')} + ''" class="top-bar-5 col-md-2"  >
+                    <button class="btn btn-sm btn-secondary edit_btn">个人信息</button>
+                </div>
+                <div  th:style="'display:' + @{(${session.user?.username} ? '' : 'none ')} + ''" class="top-bar-5 col-md-1"  >
+                    <a th:href="@{/logout}" class="ml1">注销</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--下部分-->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-lk">
+        <div class="container">
+            <a class="navbar-brand d-flex justify-content-center align-items-center" href="#">
+                <img src="asserts/imgs/logo.png" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#lk_nav"
+                    aria-controls="lk_nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="lk_nav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            学科学习
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Web前端</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Python + 人工智能</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">JavaEE + 大数据</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/search}">购买商城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">软件工具</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">专题学习</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">就业指导</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!---------------------------------头部-end--------------------------------------------------------------------->
+
+<!---------------------------------轮播图 -begin--------------------------------------------------------------------->
+
+<section id="lk_carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#lk_carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#lk_carousel" data-slide-to="1"></li>
+        <li data-target="#lk_carousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-lg-img="asserts/imgs/slide_01_2000x410.jpg"
+             data-sm-img="asserts/imgs/slide_01_640x340.jpg">
+            <img src="asserts/imgs/slide_01_2000x410.jpg" alt="">
+        </div>
+        <div class="carousel-item" data-lg-img="asserts/imgs/slide_02_2000x410.jpg"
+             data-sm-img="asserts/imgs/slide_02_640x340.jpg">
+        </div>
+        <div class="carousel-item" data-lg-img="asserts/imgs/slide_03_2000x410.jpg"
+             data-sm-img="asserts/imgs/slide_03_640x340.jpg">
+
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#lk_carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#lk_carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</section>
+
+<!---------------------------------轮播图-end--------------------------------------------------------------------->
+
+<!---------------------------------热门课程 -begin--------------------------------------------------------------------->
+
+<section id="lk_hot">
+    <!--标题-->
+    <div class="title text-center mt-5 mb-5">
+        <h1><strong>热门课程</strong></h1>
+        <img src="asserts/imgs/star.png" alt="" class="img-responsive">
+    </div>
+    <!--内容-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 lesson">
+                <div class="media ">
+                    <div class="media-left mr-2">
+                        <img src="asserts/imgs/lnj.png" alt="" class=" media-object rounded-circle  img-circle img-thumbnail"
+                             width="100">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span class="text-danger">
+【热】</span>
+                            从零玩转HTML5+跨平台
+                        </h4>
+                        <p class="text-muted" style="margin-top: 10px;">
+                            李南江老师带你从零基础入门大前端开发, So Easy, Too Happy!
+                        </p>
+                    </div>
+                    <div class="media-right text-danger">
+                        206节课
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 lesson">
+                <div class="media ">
+                    <div class="media-left mr-2 ">
+                        <img width="100" class="media-object img-circle rounded-circle img-thumbnail" src="asserts/imgs/yjh.png"
+                             alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span class="text-danger">【热】</span>
+                            从零玩转JavaScript+项目实战
+                        </h4>
+                        <p class="text-muted" style="margin-top: 10px;">
+                            叶建华老师带你轻松解读JavaScript的前世今生, 全程案例驱动讲解!
+                        </p>
+                    </div>
+                    <div class="media-right text-danger">
+                        256节课
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 lesson">
+                <div class="media ">
+                    <div class="media-left mr-2">
+                        <img width="100" class="media-object img-circle rounded-circle img-thumbnail" src="asserts/imgs/wzs.png"
+                             alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span class="text-danger">【热】</span>
+                            从零玩转人工智能+Python系列
+                        </h4>
+                        <p class="text-muted" style="margin-top: 10px;">
+                            王顺子老师倾情打造, 各种奇淫技巧层出不穷, 赶紧到碗里来!
+                        </p>
+                    </div>
+                    <div class="media-right text-danger">
+                        600+节课
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 lesson">
+                <div class="media">
+                    <div class="media-left mr-2">
+                        <img width="100" class="media-object  rounded-circle img-circle img-thumbnail"
+                             src="asserts/imgs/yjh.png" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span class="text-danger">【热】</span>
+                            从零玩转Vue+Node全系列
+                        </h4>
+                        <p class="text-muted" style="margin-top: 10px;">
+                            打通前后端, 真实企业项目实操, 内容涉及前端、后端、微信端, 让你一次学个够!
+                        </p>
+                    </div>
+                    <div class="media-right text-danger">
+                        400+节课
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 lesson">
+                <div class="media">
+                    <div class="media-left mr-2">
+                        <img width="100" class="media-object rounded-circle img-circle img-thumbnail" src="asserts/imgs/gxq.jpg"
+                             alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span class="text-danger">【热】</span>
+                            从零玩转JavaEE全系列
+                        </h4>
+                        <p class="text-muted" style="margin-top: 10px;">
+                            高新强老师全程高能, 只为成就更好的你! 学Java, 就选"高薪墙"!
+                        </p>
+                    </div>
+                    <div class="media-right text-danger">
+                        700+节课
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 lesson">
+                <div class="media">
+                    <div class="media-left mr-2">
+                        <img width="100" class="media-object rounded-circle img-circle img-thumbnail" src="asserts/imgs/lnj.png"
+                             alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span class="text-success">【新】</span>
+                            从零玩转jQuery+ajax系列
+                        </h4>
+                        <p class="text-muted" style="margin-top: 10px;">
+                            这里有用JQ做的小游戏, 也有JQ做的QQ音乐, 还有...., 你要学的, 江哥这里都有!
+                        </p>
+                    </div>
+                    <div class="media-right text-danger">
+                        200+节课
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!---------------------------------热门课程-end--------------------------------------------------------------------->
+
+<!---------------------------------产品中心 -begin--------------------------------------------------------------------->
+
+<!--行为滑动门-->
+<section id="lk_product">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                   aria-selected="true">在线大学</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                   aria-selected="false">会员专享</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">优质视频</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">线下沙龙</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">精品课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">撩课小册</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">面试宝典</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">小撩阅读</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">小撩公益</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 pd-left">
+                            <!--第一部分-->
+                            <div id="pd_one_1" class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" src="asserts/imgs/fs.jpg" alt="二维码" width="140">
+                                    </a>
+                                </div>
+                                <div class="media-body text-muted" style="padding-top: 80px">
+                                    <h6 class="media-heading">更多资讯欢迎</h6>
+                                    <h6 class="media-heading">关注撩课学院</h6>
+                                </div>
+                            </div>
+                            <!--第二部分-->
+                            <ol id="pd_one_2" class="breadcrumb lead">
+                                <li><a href="#">HTML5+全栈</a></li>
+                                <li><a href="#">Python+人工智能</a></li>
+                                <li><a href="#">JavaEE</a></li>
+                                <li><a href="#">Go语言+区块链</a></li>
+                            </ol>
+                            <!--第三部分-->
+                            <h1 id="pd_one_3">
+                                欢迎来到IT人的在线大学&nbsp;&nbsp;
+                                    <strong class="text-danger">撩课学院</strong>
+                            </h1>
+                            <!--第四部分-->
+                            <div id="pd_one_4">
+                                <button class="btn btn-primary btn-lg" type="submit" style="margin-right: 20px;">
+                                    课程咨询
+                                </button>
+                                <button class="btn btn-default btn-lg" type="submit">了解更多</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 hidden-xs hidden-sm d-none d-sm-none d-md-none d-lg-block">
+                            <img src="asserts/imgs/iphoneX.png" alt="" class="img-responsive">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 hidden-sm hidden-xs">
+                            <img src="asserts/imgs/iphoneX2.png" alt="" class="img-responsive  d-none d-sm-none d-md-none d-lg-block">
+                        </div>
+                        <div id="pd_two_1" class="col-md-8 pd-left">
+                            <h1 class="text-warning">撩课学院会员</h1>
+                            <p class="lead">汇聚名师, 为你呈现前端、后端、移动端、大数据、人工智能等从零基础到项目实战连载课程内容。专属的会员社群和私人订制服务,
+                                1年365天持续更新课程全部免费学习!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 pd-left">
+                            <h1>
+                                <strong class="text-danger">
+                                    案例驱动·体系贯穿·全面系统
+                                </strong>
+                            </h1>
+                            <h3>
+                                10-15分钟的视频
+                                <span class="text-warning">知识点拆分讲解</span>
+                            </h3>
+                            <h4 class="text-muted" style="margin: 15px 0;">玩转HTML5+全栈系列, 玩转Python+人工智能系列,
+                                玩转JavaEE系列, 玩转Go+区块链系列</h4>
+                            <div class="badge" style="padding: 15px 10px; cursor: pointer;">
+                                已更新3000+视频 | 100000+人订阅
+                            </div>
+                        </div>
+                        <div class="col-md-6 hidden-xs hidden-sm">
+                            <img src="asserts/imgs/macBook.png" alt="" width="700" class="img-responsive  d-none d-sm-none d-md-none d-lg-block">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!---------------------------------产品中心-end----------------------------------------------------------------------->
+
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;关于我们 -begin-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--<section id="lk_about">关于我们</section>-->
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;关于我们-end-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;友情链接 -begin-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--<section id="lk_link">友情链接</section>-->
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;友情链"接-end-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;尾部 -begin-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--<section id="lk_footer">尾部</section>-->
+
+<!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;尾部-end-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!-- Optional JavaScript -->
+
+<!--员工修改模态框-->
+<div class="modal fade" id="userUpdateModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hi
+     dden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">用户修改</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label>用户姓名</label>
+                        <input type="text" readonly class="form-control-plaintext" name="username" id="userName_update">
+                    </div>
+                    <div class="form-group">
+                        <label>用户密码</label>
+                        <input type="text" class="form-control" name="password" id="userPassword_update">
+                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>手机号码</label>
+                        <input type="text" class="form-control" name="phone" id="UserPhone_update">
+                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>生日</label>
+                        <input type="text" readonly class="form-control-plaintext" name="birth" id="userBirth_update">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="user_update_btn">更新</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on("click", ".edit_btn", function () {
+        let message = $("#userId").val();
+        getUser(message);
+
+        $("#user_update_btn").attr("edit-id", message);
+
+        $("#userUpdateModel").modal({
+            backdrop: 'static',
+        });
+    });
+
+    function getUser(id) {
+        $.ajax({
+            url: "/users/" + id,
+            type: "get",
+            success: function (result) {
+                let time = result.extend.user.birth;
+                var d = new Date(time);
+                var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                var UserData = result.extend.user;
+                $("#userName_update").val(UserData.username);
+                $("#userPassword_update").val(UserData.password);
+                $("#UserPhone_update").val(UserData.phone);
+                $("#userBirth_update").val(times);
+            }
+        });
+    }
+
+    //更新用户
+    $("#user_update_btn").click(function () {
+        $.ajax({
+            url: "users/"+ $("#userId").val(),
+            type: "put",
+            data: $("#userUpdateModel form").serialize(),
+            success: function (result) {
+                $("#userUpdateModel").modal("hide");
+            }
+            }
+        )
+    })
+
+</script>
+
+</body>
+</html>

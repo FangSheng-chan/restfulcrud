@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>员工业绩</title>
+    <script src="/asserts/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/asserts/js/echarts.min.js"></script>
+    <link href="/asserts/css/bootstrap.css" rel="stylesheet">
+    <link href="/asserts/css/dashboard.css" rel="stylesheet">
+    <script type="text/javascript" src="/asserts/js/bootstrap.js"></script>
+
+</head>
+
+<body>
+<!-- 引入抽取的topbar -->
+<!--模板名：会使用thymeleaf的前后缀配置规则进行解析 -->
+<div th:replace="commons/bar::topbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--引入侧边栏 -->
+        <div th:replace="commons/bar::sidebar(activeUri='performance')"></div>
+        <div id="main" style="width: 800px;height:450px;" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        //数据加载完之前先显示一段简单的loading动画
+        myChart.showLoading();
+        var names = [];    //横坐标数组（实际用来盛放X轴坐标值）
+        var values = [];    //纵坐标数组（实际用来盛放Y坐标值）
+        $.ajax({
+            type: "post",
+            async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url: "/emps/EPerformance",    //请求发送到dataActiont处
+            data: {},
+            dataType: "json",        //返回数据形式为json
+            success: function (result) {
+                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                if (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        names.push(result[i].name);
+                        values.push(result[i].performance);
+                    }
+                    myChart.hideLoading();    //隐藏加载动画
+                    myChart.setOption({        //加载数据图表
+                        tooltip: {
+                            trigger: "axis",
+                            axisPointer: {
+                                // 坐标轴指示器，坐标轴触发有效
+                                type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data: ['业绩']
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            data: names
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            name: '业绩',//薪资 series not exists. Legend data should be same with series name or data name.
+                            type: 'bar',
+                            data: values,
+                            barWidth: "35%",
+                            itemStyle: {
+                                // 修改柱子圆角
+                                barBorderRadius: 5
+                            }
+                        }]
+                    });
+                    window.addEventListener("resize", function () {
+                        myChart.resize();
+                    });
+                }
+            },
+            error: function (errorMsg) {
+                //请求失败时执行该函数
+                alert("图表请求数据失败!");
+                myChart.hideLoading();
+            }
+        });//end ajax
+    });
+
+</script>
+</body>
+</html>

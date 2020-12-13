@@ -1,0 +1,22 @@
+server:
+  port: 8001
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver           # mysql驱动包
+    url: jdbc:mysql://localhost:3306/restfulcrud?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+    username: root
+    password: Hello.001
+  #    springboot 2.X 以后接受不了 @PutMapping
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+#mybatis分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countsql
